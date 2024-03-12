@@ -1,0 +1,18 @@
+---
+title: "janthinaa.github.io"
+---
+
+# About 
+
+hi ! I'm Janthina. The dataset that I have chosen is on Walt Disney Movies.
+
+Here is the link to the dataset that I have chosen: <https://www.kaggle.com/datasets/dikshabhati2002/walt-disney-movies>
+
+```         
+```
+
+```{r}
+
+knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/MyShinyApp/"> </iframe>')
+
+```

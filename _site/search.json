@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "janthinaa.github.io",
+    "section": "",
+    "text": "About\nhi ! I’m Janthina. The dataset that I have chosen is on Walt Disney Movies.\nHere is the link to the dataset that I have chosen: https://www.kaggle.com/datasets/dikshabhati2002/walt-disney-movies\n\n\nknitr::asis_output('&lt;iframe height=\"400\" width=\"100%\" frameborder=\"no\" src=\"https://janthina.shinyapps.io/MyShinyApp/\"&gt; &lt;/iframe&gt;')"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  }
+]
