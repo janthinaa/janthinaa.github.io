@@ -2,17 +2,28 @@
 title: "janthinaa.github.io"
 ---
 
-# About 
+# About
 
-hi ! I'm Janthina. The dataset that I have chosen is on Walt Disney Movies.
+hi ! I'm Janthina. In my project, I have chosen to explore the trends in Olympic Swimming.
 
-Here is the link to the dataset that I have chosen: <https://www.kaggle.com/datasets/dikshabhati2002/walt-disney-movies>
+#### Data 
+
+Link to the data set that I have chosen:
+<https://www.kaggle.com/datasets/datasciencedonut/olympic-swimming-1912-to-2020>
+
+Since the athletes are categorized by 'Team' using the country codes assigned by the International Olympic Committee (IOC) instead of their country's names, we can use the following data set to assign them:
+
+<https://github.com/johnashu/datacamp/blob/master/medals/Summer%20Olympic%20medalists%201896%20to%202008%20-%20IOC%20COUNTRY%20CODES.csv>
 
 ```         
-```
-
-```{r}
-
-knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/MyShinyApp/"> </iframe>')
-
+{r}
+#| out.width: "80%"
+#| label: fig-airquality
+#| fig-cap: Temperature and ozone level.
+#| warning: false
+#| eval: FALSE
+library(tidyverse)
+ggplot(airquality, aes(Temp, Ozone)) +
+geom_point() +
+geom_smooth(method = "loess")
 ```
