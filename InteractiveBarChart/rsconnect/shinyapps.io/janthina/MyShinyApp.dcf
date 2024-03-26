@@ -5,7 +5,7 @@ account: janthina
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11446410
-bundleId: 8352404
+bundleId: 8419450
 url: https://janthina.shinyapps.io/MyShinyApp/
 version: 1
 asMultiple: FALSE
