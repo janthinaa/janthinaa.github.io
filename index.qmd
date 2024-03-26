@@ -2,8 +2,14 @@
 title: "janthinaa.github.io"
 ---
 
-# About
+# **Olympic Swimming History 1912-2020**
 
-hi ! I'm Janthina. In my project, I have chosen to explore the trends in Olympic Swimming.
+```{r}
 
-#### Data
+knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
+
+```
+
+```{r}
+knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/MyShinyApp/"> </iframe>')
+```
