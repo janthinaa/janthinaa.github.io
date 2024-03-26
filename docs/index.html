@@ -137,16 +137,71 @@ ul.task-list li input[type="checkbox"] {
 <p>Link to the data set that I have chosen: <a href="https://www.kaggle.com/datasets/datasciencedonut/olympic-swimming-1912-to-2020" class="uri">https://www.kaggle.com/datasets/datasciencedonut/olympic-swimming-1912-to-2020</a></p>
 <p>Since the athletes are categorized by ‘Team’ using the country codes assigned by the International Olympic Committee (IOC) instead of their country’s names, we can use the following data set to assign them:</p>
 <p><a href="https://github.com/johnashu/datacamp/blob/master/medals/Summer%20Olympic%20medalists%201896%20to%202008%20-%20IOC%20COUNTRY%20CODES.csv" class="uri">https://github.com/johnashu/datacamp/blob/master/medals/Summer%20Olympic%20medalists%201896%20to%202008%20-%20IOC%20COUNTRY%20CODES.csv</a></p>
-<pre><code>{r}
-#| out.width: "80%"
-#| label: fig-airquality
-#| fig-cap: Temperature and ozone level.
-#| warning: false
-#| eval: FALSE
+<pre><code># Load required R packages
 library(tidyverse)
-ggplot(airquality, aes(Temp, Ozone)) +
-geom_point() +
-geom_smooth(method = "loess")</code></pre>
+library(highcharter) 
+
+# Set highcharter options
+options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
+
+# Load Data 
+olympicswimming &lt;- read.csv("/Users/janthinatan/Desktop/NM2207/Final Project/olympicswimming.csv")
+#Filter out the medalists 
+olympicmedalists &lt;- olympicswimming %&gt;% filter(Rank&lt;4)
+
+#load IOC code names
+ioc_data&lt;-read_csv("/Users/janthinatan/Desktop/NM2207/Final Project/ioc country codes.csv")
+
+ioc_data &lt;- ioc_data[c("Country", "NOC")]
+
+olympicmedalists$Country &lt;- ioc_data$Country[match(olympicmedalists$Team, ioc_data$NOC)]
+
+#Name countries whose IOC is not contained in IOC dataset 
+
+# Find the row index where Team is "ROC"
+roc_row_index &lt;- which(olympicmedalists$Team == "ROC")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] &lt;- "Russia"
+
+# Find the row index where Team is "SGP"
+roc_row_index &lt;- which(olympicmedalists$Team == "SGP")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] &lt;- "Singapore"
+
+# Find the row index where Team is "ROU"
+roc_row_index &lt;- which(olympicmedalists$Team == "ROU")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] &lt;- "Romania"
+
+# Find the row index where Team is "USA"
+roc_row_index &lt;- which(olympicmedalists$Team == "USA")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] &lt;- "United States of America"
+
+#Group Countries by number of medals 
+medalspercountry &lt;- olympicmedalists %&gt;% group_by(Country) %&gt;% summarise(Medals=n())
+
+# Load the world Map data
+data(worldgeojson, package = "highcharter")
+
+#Choose colours 
+colors  &lt;- c("#ECEFFF","#4967FF","#001A9E","#000A3F")
+
+#Create map 
+worldmap &lt;- highchart() %&gt;%
+  hc_add_series_map(
+    worldgeojson, medalspercountry, value = "Medals", joinBy = c('name','Country'),
+    name = "Oympic Swimming Medals by Country"
+    )  %&gt;% 
+  hc_colorAxis(minColor = "#ECEFFF", maxColor="#000A3F", stops = color_stops(n=length(colors),colors=colors)) %&gt;% 
+  hc_title(text = "World Map") %&gt;% 
+  hc_subtitle(text = "Olympic Swimming Medals by Country 1912-2020")
+
+worldmap</code></pre>
 
 
 </section>
