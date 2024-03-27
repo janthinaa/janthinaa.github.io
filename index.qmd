@@ -4,6 +4,16 @@ title: "janthinaa.github.io"
 
 # **Olympic Swimming History 1912-2020**
 
+In light of the upcoming 2024 Paris Olympics, let us dive into some trends surrounding Olympic Swimming!
+
+#### **Background**
+
+The first modern Olympic Games were held in Athens in 1896. The first Olympics introduced some interesting races into the lineup, such us the 100m free for sailors was strictly for members of the Greek Navy, and all of the races were held in open water.
+
+Until 1912, only male swimmers were allowed to compete in the Olympics. Women only began to compete at the Stockholm Olympics when they were finally allowed in water. In that year, they could only compete in the 100 free and 400 free relay.
+
+#### Total Swimming Medals 
+
 ```{r}
 
 knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')

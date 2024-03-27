@@ -57,17 +57,22 @@ medalcolour <- medalcolour %>% filter(Rank>0)
 #Group data by country and medal colour
 medal_counts <- medalcolour %>% group_by(Country, TypeofMedal) %>% summarise(Count=n()) %>% arrange(desc(Count))
 
+#Top 10 Countries by Medal Count 
+toptenmedal_counts <- medal_counts %>% filter(Country %in% c("United States of America","Australia","Germany","Japan","United Kingdom","Hungary","Netherlands", "Canada","China", "France", "Sweden"))
+
+toptenmedal_counts
+
 #Create Shiny App 
 ui <- fluidPage (
   titlePanel("Interactive Bar Graph"),
   mainPanel(highchartOutput("BarGraph"))
 )
 
-medal_counts$TypeofMedal <- factor(medal_counts$TypeofMedal, levels = c ("Gold","Silver", "Bronze"))
+toptenmedal_counts$TypeofMedal <- factor(toptenmedal_counts$TypeofMedal, levels = c ("Gold","Silver", "Bronze"))
 
 server <- function(input, output) {
   output$BarGraph <- renderHighchart({
-    hchart(medal_counts, type = 'bar', hcaes(x = 'Country', y = 'Count', group = 'TypeofMedal', ),
+    hchart(toptenmedal_counts, type = 'bar', hcaes(x = 'Country', y = 'Count', group = 'TypeofMedal', ),
            stacking = "normal"
     ) %>%
       hc_colors(c("#FFD700", "#C0C0C0","#CD7F32")) %>% hc_title(text="Type of Medals won by each country")})
