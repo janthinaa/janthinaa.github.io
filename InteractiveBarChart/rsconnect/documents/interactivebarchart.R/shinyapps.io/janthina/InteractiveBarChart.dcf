@@ -1,0 +1,12 @@
+name: InteractiveBarChart
+title: InteractiveBarChart
+username: janthina
+account: janthina
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11602792
+bundleId: 8425165
+url: https://janthina.shinyapps.io/InteractiveBarChart/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

@@ -21,5 +21,5 @@ knitr::asis_output('<iframe height="500" width="120%" frameborder="no" src="http
 ```
 
 ```{r}
-knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/MyShinyApp/"> </iframe>')
+knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveBarChart/"> </iframe>')
 ```
