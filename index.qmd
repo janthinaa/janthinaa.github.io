@@ -8,7 +8,7 @@ In light of the upcoming 2024 Paris Olympics, let us dive into some trends surro
 
 #### **Background**
 
-The first modern Olympic Games were held in Athens in 1896. The first Olympics introduced some interesting races into the lineup, such us the 100m free for sailors was strictly for members of the Greek Navy, and all of the races were held in open water.
+The first modern Olympic Games were held in Athens in 1896. The first Olympics introduced some interesting races into the lineup, such us the 100m free for sailors which was strictly for members of the Greek Navy and all of the races were held in open water.
 
 Until 1912, only male swimmers were allowed to compete in the Olympics. Women only began to compete at the Stockholm Olympics when they were finally allowed in water. In that year, they could only compete in the 100 free and 400 free relay.
 
@@ -16,7 +16,7 @@ Until 1912, only male swimmers were allowed to compete in the Olympics. Women on
 
 ```{r}
 
-knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
+knitr::asis_output('<iframe height="500" width="120%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
 
 ```
 
