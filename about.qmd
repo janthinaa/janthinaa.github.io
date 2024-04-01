@@ -2,8 +2,18 @@
 title: "About"
 ---
 
-About this site
+### About Me 
 
-```{r}
-1 + 1
-```
+I am currently a Year 2 undergraduate at the National University of Singapore pursing an honours degree in Political Science with a minor in Economics and (hopefully) a minor in Interactive Media Design.
+
+I stumbled upon the existence of a minor in "Interactive Media Design" while exploring ways in which I could incorporate my interests in visual art into my prospective career options. Hence, my presence in this module.
+
+When I am not preoccupied in my attempts to be an academic weapon, I enjoy playing a variety of sports such as Badminton, Squash and Touch Rugby - which I represent NUS Raffles Hall in playing. I am also actively engaged as an EXCO member of the Block 8 Committee and Raffles Volunteer Corp (Children). Aside from these in-school hustles, I have also worked part-time as a B![]()arista, Inline Skating Instructor as well as Studio Assistant at an Art Studio which crafts bespoke art experiences for a range of clients.
+
+While I am usually unfazed by taking up challenges in the spirit of exploring my interests, I must admit now that choosing to take this module with zero coding experience may have been one of the biggest leaps of faith I have taken thus far (comparable to when I signed up to climb Mount Rinjani with no climbing experience last year).
+
+Feel free to poke around my page and see what I've been up to in this module!
+
+Cheers!
+
+Janthina
