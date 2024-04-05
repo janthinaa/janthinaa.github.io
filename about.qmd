@@ -2,7 +2,7 @@
 title: "About"
 ---
 
-### About Me 
+## Hi I'm Janthina!
 
 I am currently a Year 2 undergraduate at the National University of Singapore pursing an honours degree in Political Science with a minor in Economics and (hopefully) a minor in Interactive Media Design.
 

@@ -1,10 +1,83 @@
 ---
-title: "janthinaa.github.io"
+title: "Olympic Swimming History 1912-2020"
+title-block-banner: true
 ---
 
-# **Olympic Swimming History 1912-2020**
-
 In light of the upcoming 2024 Paris Olympics, let us dive into some trends surrounding Olympic Swimming
+
+```{r,echo=FALSE,message=FALSE}
+
+# Load required R packages
+library(tidyverse)
+library(ggplot2)
+library(highcharter)
+
+# Load Data 
+olympicswimming <- read.csv("/Users/janthinatan/Desktop/NM2207/Final Project/olympicswimming.csv")
+
+#Filter out the medalists 
+olympicmedalists <- olympicswimming %>% filter(Rank<4)
+
+#load IOC code names
+ioc_data<-read_csv("/Users/janthinatan/Desktop/NM2207/Final Project/ioc country codes.csv")
+
+ioc_data <- ioc_data[c("Country", "NOC")]
+
+olympicmedalists$Country <- ioc_data$Country[match(olympicmedalists$Team, ioc_data$NOC)]
+```
+
+```{r, echo=FALSE}
+
+#Name countries whose IOC is not contained in IOC dataset 
+
+# Find the row index where Team is "ROC"
+roc_row_index <- which(olympicmedalists$Team == "ROC")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Russia"
+
+# Find the row index where Team is "SGP"
+roc_row_index <- which(olympicmedalists$Team == "SGP")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Singapore"
+
+# Find the row index where Team is "ROU"
+roc_row_index <- which(olympicmedalists$Team == "ROU")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Romania"
+
+# Find the row index where Team is "USA"
+roc_row_index <- which(olympicmedalists$Team == "USA")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "United States of America"
+
+# Find the row index where Team is "SRB"
+roc_row_index <- which(olympicmedalists$Team == "SRB")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Serbia"
+
+# Find the row index where Team is "NlD"
+roc_row_index <- which(olympicmedalists$Team == "NLD")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Netherlands"
+
+# Find the row index where Team is "TTO"
+roc_row_index <- which(olympicmedalists$Team == "TTO")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Trinidad and Tobago "
+```
+
+```{r,echo=FALSE}
+speed <-olympicmedalists%>% filter(Rank==1) %>% group_by(Distance..in.meters.,Stroke,Gender)
+speed <- speed %>%
+  mutate(EventType = paste(Gender,Distance..in.meters., Stroke, sep = " "))
+```
 
 ### **Background**
 
@@ -12,22 +85,181 @@ The first modern Olympic Games were held in Athens in 1896. The first Olympics i
 
 Until 1912, only male swimmers were allowed to compete in the Olympics. Women only began to compete at the Stockholm Olympics when they were finally allowed in water. In that year, they could only compete in the 100 free and 400 free relay.
 
-#### Most Dominant Country 
+```{r, echo=FALSE, message=FALSE}
+
+speed2 <- speed %>%
+  mutate(EventType2 = paste(Distance..in.meters., Stroke, sep = " "))
+```
+
+### Most Dominant Country
 
 Lets take a brief overview of countries which have been most successful in Olympic Swimming.
 
-```{r}
-
-knitr::asis_output('<iframe height="500" width="120%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
-
+```{r,echo=FALSE}
+knitr::asis_output('<iframe height="500" width="100%%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
 ```
 
-```{r}
-knitr::asis_output('<iframe height="400" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveBarChart/"> </iframe>')
+```{r,echo=FALSE}
+knitr::asis_output('<iframe height="500" width="100%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveBarChart/"> </iframe>')
 ```
 
-#### Swimming Results Over Time 
+At the 2020 Tokyo Olympics, the United States of America took home 30 medals in swimming, adding to the incredible haul of medals that it has been accumulating since the start of the Olympic Games. In comparison, Australia and Japan which are ranked second and third in the overall medal count only bagged 21 and 3 medals respectively.
 
-#### Most Decorated Athletes 
+Besides it's massive overall medal count, it is also worth noting that 25% of USA's medals from the 2020 Olympic Games came from swimming, proving its strength in this domain.
 
-# **References** 
+### Swimming Results Over Time
+
+```{r,echo=FALSE}
+ knitr::asis_output('<iframe height="500" width="100%" frameborder="no" src="https://janthina.shinyapps.io/LineGraph/"> </iframe>')
+```
+
+Olympic swimming performances have made significant improvements since 1912. The reasons for improvement are due in part to advanced training procedures, increasingly sophisticated selection methods, superior stroke mechanics, increased access to the sport or even new swimwear technologies. Most importantly, this is possible due to the International Swimming Federation's openness in developing competition rules such as exploring new swimming techniques, swimmer's gear and swimwear as well as swimming pool equipment while ensuring that the final performance is determined by human skills and quality of training rather than technology.
+
+While the fastest timings have not decreased consistently in every Olympics (as seen in the example above), an overall outlook shows that swimming performance at the Olympics has improved over time.
+
+```{r,echo=FALSE,message=FALSE}
+
+library(hms)
+times<- speed$Results
+times1 <-strsplit(times,split="\\.")
+times2 <-sapply(times1,function(x) x[1])
+timessd <-sapply(times1,function(x) x[2])
+timessd <-sapply(timessd,function(x) substr(x,0,3))
+times3 <-strsplit(times2,split=":")
+times3 <-sapply(times3,rev)
+times3 <-lapply(times3, function(x) {
+  while (length(x) < 3) {
+    x <-c(x, "0")
+  }
+  x
+})
+
+weights <- c(1,60,3600)
+secs <-sapply(times3, function(x) {
+  temp=0
+  for(y in 1:length(x)) {
+    temp = temp + strtoi(weights[y] * strtoi(x[y]))
+  }
+  temp
+})
+secs <- secs + as.numeric(as.numeric(timessd)/1000)
+library(dplyr)
+timef <- secs %>% hms(seconds = .)
+
+speed$Results <- secs
+```
+
+```{r,echo=FALSE}
+speed_of_women <- subset(speed, !(EventType %in% c( "Women 1500m Freestyle", "Women 800m Freestyle")))
+
+speed_of_women<-speed_of_women %>% filter(Gender == "Women")
+```
+
+```{r,echo=FALSE,message=FALSE}
+
+hc <- speed_of_women %>% 
+  hchart(type = 'line', hcaes(x = Year, y = Results, group = EventType)) %>%
+  hc_title(text = "Swimming Results Over Time ") %>%
+  hc_subtitle(text = "Women's Events")
+
+hc
+```
+
+```{r,echo=FALSE, message=FALSE}
+
+speed_of_men <- subset(speed, !(EventType %in% c("Men 1500m Freestyle", "Men 400m Breaststroke", "Men 800m Freestyle")))
+
+speed_of_men<- speed_of_men %>% filter(Gender == "Men")
+
+hc1 <- speed_of_men %>% 
+  hchart(type = 'line', hcaes(x = Year, y = Results, group = EventType)) %>%
+  hc_title(text = "Swimming Results Over Time  ") %>%
+  hc_subtitle(text = "Men's Events")
+
+hc1
+```
+
+### Improvement: Men vs Women 
+
+```{r, echo=FALSE}
+speed2 <- speed %>%
+  mutate(EventType2 = paste(Distance..in.meters., Stroke, sep = " "))
+
+improvement <- speed2 %>%
+  group_by(Gender,EventType2) %>%
+  summarise(minR = min(Results, na.rm = T),
+            maxR = max(Results, na.rm = T),
+            rangeR = maxR - minR)
+
+improvement <- subset(improvement, !(EventType2 %in% c("1500m Freestyle", "800m Freestyle", "400m Breaststroke", "4x100 Freestyle", "4x200 Freestyle", "4x100 Medley")))
+
+hc3 <- improvement %>% 
+  hchart('column', hcaes(x = 'EventType2', y = 'rangeR', group = "Gender")) %>%
+  hc_colors(c("#0073C2FF", "#EFC000FF")) %>% 
+  hc_title(text = "Improvement in Swimming Results Over Time by Event") %>% 
+  hc_yAxis(title = list(text = "Improvement(seconds)")) %>% 
+  hc_xAxis(title = list(text = "Event"))
+
+hc3
+```
+
+Across events, we observe a larger absolute improvement in Women's Swimming events.
+
+```{r, echo = FALSE}
+rateofimprovement <- speed2 %>% group_by(Year, Gender, EventType) %>%
+  group_by(EventType2) %>%
+  arrange(Year, .by_group = T) %>% 
+  mutate(improv = Results - lag(Results)) %>%
+  na.omit()
+
+rateofimprovement <- rateofimprovement %>% filter(EventType2 %in% c("100m Freestyle"))
+
+#this is still a work in progress 
+hc4 <- rateofimprovement %>% 
+  hchart(type = 'column', hcaes(x = 'Year', y = 'improv', group = 'Gender'))
+
+hc4
+```
+
+\[Am still working on how I should visualize this graph to show that the rate of improvement between men and women are different\]
+
+```{r,echo=FALSE}
+
+gold_medalist <-speed2 %>% filter(EventType2 == "100m Freestyle")
+
+hc5 <- gold_medalist %>% 
+  hchart(type = 'line', hcaes(x = Year, y = Results, group = Gender)) %>%
+  hc_title(text = "100m Freestyle Results Over Time  ") %>%
+  hc_subtitle(text = "Men vs Women Events")
+hc5
+```
+
+Owing to a greater rate of improvment in female swimmers, we can observe a diminishing difference between the results of female and male athletes in the 100m Freestyle event. While the 1952 difference between male and female gold medallists was 9.40 s, by 2008 it dropped to 5.91 s.
+
+```{r, echo=FALSE}
+freestylespeed <- speed2 %>% filter(Rank==1) %>% filter(Stroke == "Freestyle") %>% filter (Year == "2008") 
+
+freestylespeed <- freestylespeed %>% arrange(EventType, Gender)
+
+# Reshape data from wide to long format
+freestylespeed <- freestylespeed %>%
+  pivot_wider(names_from = Gender, values_from = Results) %>%
+  mutate(EventType = gsub("\\s\\(.*", "", EventType2)) %>%
+  pivot_longer(cols = c("Men", "Women"),
+               names_to = "Gender",
+               values_to = "Results")
+
+freestylespeed
+```
+
+\[still working on filtering the data to draw this graph\]
+
+Overall, we can also observe an increasing difference in swimming results between women and men as the race distance grows longer.
+
+The reason for this can be sought in physiological and morphological features. This phenomenon is also mirrored in track events where, the smallest margin of differences occurs between men and women in the marathon, while the greatest percentile differences occur in the long sprints which depend on anaerobic glycolysis
+
+It thus seems that women have well developed aerobic metabolism, similar to men. However, sprints both in track and fields and in swimming require the development of muscular strength and power which favours men because of the higher content of muscle tissue and better developed anaerobic metabolism. However, a higher fat content in female athletes may increase buoyancy, which can be considered a benefit in distance swimming. Owing to increased buoyancy and energy reserves from higher body fat content, women may soon approach the performance of men.
+
+### **References**
+
+Stanula A, Maszczyk A, Roczniok R, Pietraszewski P, Ostrowski A, Zając A, Strzała M. The development and prediction of athletic performance in freestyle swimming. J Hum Kinet. 2012 May;32:97-107. doi: 10.2478/v10078-012-0027-3. Epub 2012 May 30. PMID: 23486223; PMCID: PMC3590874.

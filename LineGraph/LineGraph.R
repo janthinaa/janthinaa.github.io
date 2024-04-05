@@ -2,9 +2,6 @@
 # Load required R packages
 library(tidyverse)
 
-# Set highcharter options
-options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
-
 # Load Data 
 olympicswimming <- read.csv("olympicswimming.csv")
 #Filter out the medalists 
@@ -77,6 +74,7 @@ timef <- secs %>% hms(seconds = .)
 
 speed$Results <- timef
 speed$Results <- secs
+
 speedbywomensfreestyle <-speed %>% filter(Gender=="Women") %>% filter(Stroke == "Freestyle") %>% filter(Distance..in.meters. == "100m")
 
 #Make App 
