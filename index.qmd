@@ -236,7 +236,7 @@ hc5
 
 Owing to a greater rate of improvment in female swimmers, we can observe a diminishing difference between the results of female and male athletes in the 100m Freestyle event. While the 1952 difference between male and female gold medallists was 9.40 s, by 2008 it dropped to 5.91 s.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message= FALSE}
 freestylespeed <- speed2 %>% filter(Rank==1) %>% filter(Stroke == "Freestyle") %>% filter (Year == "2008") 
 
 freestylespeed <- freestylespeed %>% arrange(EventType, Gender)
