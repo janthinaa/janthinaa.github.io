@@ -83,7 +83,7 @@ library(plotly)
 library(shiny)
 
 ui <- fluidPage(
-  h1("Women 100m Freestyle Results "),
+  h3("Women 100m Freestyle Results "),
   plotlyOutput("graph")
 )
 

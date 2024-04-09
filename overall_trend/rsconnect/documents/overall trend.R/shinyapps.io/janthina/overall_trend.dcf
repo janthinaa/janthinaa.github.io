@@ -1,0 +1,12 @@
+name: overall_trend
+title: overall_trend
+username: janthina
+account: janthina
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11706270
+bundleId: 8471480
+url: https://janthina.shinyapps.io/overall_trend/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

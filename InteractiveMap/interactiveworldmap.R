@@ -50,21 +50,22 @@ medalspercountry <- olympicmedalists %>% group_by(Country) %>% summarise(Medals=
 data(worldgeojson, package = "highcharter")
 
 ui <- fluidPage (
-  titlePanel("Interactive World Map"),
+  titlePanel(""),
   mainPanel(highchartOutput("InteractiveMap"))
 )
 
 #Choose colours 
-colors  <- c("#ECEFFF","#4967FF","#001A9E","#000A3F")
+colors  <- c("#ffeda0","#9ecae1","#3182bd","#2c7fb8")
 
 server <- function(input, output) {
   output$InteractiveMap <- renderHighchart({ highchart() %>%
       hc_add_series_map(worldgeojson, medalspercountry, value = "Medals", joinBy = c('name','Country'),
-                        name = "Oympic Swimming Medals by Country"
+                        name = ""
       )  %>% 
-      hc_colorAxis(minColor = "#ECEFFF", maxColor="#000A3F", stops = color_stops(n=length(colors),colors=colors)) %>% 
-      hc_title(text = "World Map") %>% 
-      hc_subtitle(text = "Olympic Swimming Medals by Country 1912-2020")
+      hc_colorAxis(minColor = "#a6bddb", maxColor="#2c7fb8", stops = color_stops(n=length(colors),colors=colors)) %>% 
+      hc_chart(borderColor = "black") %>% 
+      hc_title(text = "Oympic Swimming Medals by Country") %>% 
+      hc_subtitle(text = "1912-2020")
   })
 }
 

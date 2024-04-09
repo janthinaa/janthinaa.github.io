@@ -64,7 +64,7 @@ toptenmedal_counts
 
 #Create Shiny App 
 ui <- fluidPage (
-  titlePanel("Interactive Bar Graph"),
+  titlePanel(""),
   mainPanel(highchartOutput("BarGraph"))
 )
 
@@ -75,7 +75,9 @@ server <- function(input, output) {
     hchart(toptenmedal_counts, type = 'bar', hcaes(x = 'Country', y = 'Count', group = 'TypeofMedal', ),
            stacking = "normal"
     ) %>%
-      hc_colors(c("#FFD700", "#C0C0C0","#CD7F32")) %>% hc_title(text="Type of Medals won by each country")})
+      hc_colors(c("#FFD700", "#C0C0C0","#CD7F32")) %>% 
+      hc_title(text="Type of Medals won By Each Country") %>% 
+      hc_subtitle(text = " Top 10 Countries by Medal Count") }) 
 }
 
 shinyApp (ui=ui, server = server)
