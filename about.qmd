@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: ""
 ---
 
 ## Hi I'm Janthina!

@@ -63,9 +63,10 @@ server <- function(input, output) {
                         name = ""
       )  %>% 
       hc_colorAxis(minColor = "#a6bddb", maxColor="#2c7fb8", stops = color_stops(n=length(colors),colors=colors)) %>% 
-      hc_chart(borderColor = "black") %>% 
+      hc_chart(borderColor = "black", 
+               zoomType = "xy") %>% 
       hc_title(text = "Oympic Swimming Medals by Country") %>% 
-      hc_subtitle(text = "1912-2020")
+      hc_subtitle(text = "1912-2020") 
   })
 }
 

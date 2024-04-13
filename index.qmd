@@ -4,10 +4,14 @@ title: ""
 
 ```{r, results='asis', echo=FALSE}
 cat('
+<div style="position: relative;">
 <section class=\"image-container\">
-  <img src=\"olympicswimming.png" style=\"width:100%;height:300px;object-fit:cover;\"/>
-  <h1 class=\"text-center\">Olympic Swimming History 1912-2020</h1>
+  <img src=\"olympicswimming.png" style=\"width:100%;height:300px;object-fit:cover;opacity:\"/>
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: White;width: 80%;">
+  <h1 style="font-size: 40px; ">Olympic Swimming History 1912-2020</h1>
 </section>
+</div>
+
 <section id=\"introduction\" class=\"container\" width=\"100%\">
   <h4 class=\"text-center fw-bold my-4\">In light of the upcoming 2024 Paris Olympics, let us dive into some trends surrounding Olympic Swimming</h4>
   ')
@@ -101,7 +105,7 @@ speed2 <- speed %>%
 cat('
   <h3 class=\"text-center\">Which Countries Have Been Most Dominant?</h3>
 </section>
-  <h4 class=\"text-center fw-bold my-4\">Lets take a brief overview of countries which have been most successful in Olympic Swimming</h4>
+  <h4 class=\"text-center\">Here is a brief overview of the countries which have been most successful in Olympic Swimming. Zoom in to take a closer look! </h4>
   ')
 ```
 
@@ -166,18 +170,16 @@ timef <- secs %>% hms(seconds = .)
 speed$Results <- secs
 ```
 
+
 ```{r,echo=FALSE,message=FALSE}
 knitr::asis_output('<iframe height="600" width="100%" frameborder="no" src="https://janthina.shinyapps.io/overall_trend/"> </iframe>')
 ```
 
 ```{r, results='asis', echo=FALSE}
 cat('
-<section class=\"image-container\">
-  <img src=\"menvwomen.png" style=\"width:100%;height:300px;object-fit:cover;\"/>
+
   <h3 class=\"text-center\">Improvement How?</h3>
 </section>
-<section id=\"introduction\" class=\"container\" width=\"100%\">
-  <h4 class=\"text-center\">Lets dive deeper into these improvements!</h4>
   ')
 ```
 
@@ -268,9 +270,8 @@ freestylespeed <- speed <- speed %>%
 
 difference <- freestylespeed %>%
   select(Year, Gender, Results, Stroke, Distance..in.meters.) %>%
-  pivot_wider(names_from = Gender, values_from = Results)
+  pivot_wider(names_from = Gender, values_from = Results) %>% na.omit
 
-difference
 ```
 
 ```{r, echo=FALSE, message= FALSE,warning=FALSE}
@@ -279,20 +280,17 @@ freestylespeed <- speed2 %>% filter(Rank==1) %>% filter(Stroke == "Freestyle") %
 freestylespeed <- freestylespeed %>% arrange(EventType, Gender)
 
 # Reshape data from wide to long format
-freestylespeed <- freestylespeed %>%
+difference<- freestylespeed %>%
   pivot_wider(names_from = Gender, values_from = Results) %>%
   mutate(EventType = gsub("\\s\\(.*", "", EventType2)) %>%
   pivot_longer(cols = c("Men", "Women"),
                names_to = "Gender",
                values_to = "Results")
+
 ```
 
-Overall, we can also observe an increasing difference in swimming results between women and men as the race distance grows longer.
+References: 
 
-The reason for this can be sought in physiological and morphological features. This phenomenon is also mirrored in track events where, the smallest margin of differences occurs between men and women in the marathon, while the greatest percentile differences occur in the long sprints which depend on anaerobic glycolysis
-
-It thus seems that women have well developed aerobic metabolism, similar to men. However, sprints both in track and fields and in swimming require the development of muscular strength and power which favours men because of the higher content of muscle tissue and better developed anaerobic metabolism. However, a higher fat content in female athletes may increase buoyancy, which can be considered a benefit in distance swimming. Owing to increased buoyancy and energy reserves from higher body fat content, women may soon approach the performance of men.
-
-### **References**
+Berthelot G, Sedeaud A, Marck A, Antero-Jacquemin J, Schipman J, Saulière G, Marc A, Desgorces FD, Toussaint JF. Has Athletic Performance Reached its Peak? Sports Med. 2015 Sep;45(9):1263-1271. doi: 10.1007/s40279-015-0347-2. PMID: 26094000; PMCID: PMC4536275.
 
 Stanula A, Maszczyk A, Roczniok R, Pietraszewski P, Ostrowski A, Zając A, Strzała M. The development and prediction of athletic performance in freestyle swimming. J Hum Kinet. 2012 May;32:97-107. doi: 10.2478/v10078-012-0027-3. Epub 2012 May 30. PMID: 23486223; PMCID: PMC3590874.

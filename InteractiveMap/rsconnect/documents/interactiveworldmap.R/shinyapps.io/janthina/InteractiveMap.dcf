@@ -5,7 +5,7 @@ account: janthina
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11589682
-bundleId: 8470482
+bundleId: 8488432
 url: https://janthina.shinyapps.io/InteractiveMap/
 version: 1
 asMultiple: FALSE
