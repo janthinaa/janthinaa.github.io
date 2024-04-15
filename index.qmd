@@ -219,7 +219,7 @@ hc5 <- gold_medalist %>%
 hc5
 ```
 
-Owing to a **greater rate of improvement in female swimmers**, we can observe a **diminishing difference** **between the results of female and male athletes.** Take for example tht 100m Freestyle event, the 1952 difference between male and female gold medalists was 19.40 s and had dropped to 4.094 s by 2020
+Owing to a **greater rate of improvement in female swimmers**, we can observe a **diminishing difference** **between the results of female and male athletes.** Take for example the 100m Freestyle event, the 1952 difference between male and female gold medalists was 19.40 s and had dropped to 4.094 s by 2020
 
 ```{r, echo=FALSE, message= FALSE}
 rateofimprovement <- speed %>% group_by(Year, EventType) %>%
