@@ -101,42 +101,27 @@ speed2 <- speed %>%
   mutate(EventType2 = paste(Distance..in.meters., Stroke, sep = " "))
 ```
 
+### Which Countries Have Been Most Dominant?
+
+##### Here is a brief overview of the countries which have been most successful in Olympic Swimming. Zoom in to take a closer look!
+
 ```{r, results='asis', echo=FALSE}
 cat('
-  <h3 class=\"text-center\">Which Countries Have Been Most Dominant?</h3>
-</section>
-  <h4 class=\"text-center\">Here is a brief overview of the countries which have been most successful in Olympic Swimming. Zoom in to take a closer look! </h4>
-  ')
+<p align="center"><iframe src="https://janthina.shinyapps.io/InteractiveMap/" width=500 height="420"></iframe></p> ')
 ```
-
-```{r,echo=FALSE}
-knitr::asis_output('<iframe height="500" width="150%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveMap/"> </iframe>')
-```
-<br>
 
 **At the 2020 Tokyo Olympics**, the **United States of America** took home **30 medals** in swimming, adding to the incredible haul of medals that it has been accumulating since the start of the Olympic Games. In comparison, **Australia** and **Japan** which are ranked second and third in the overall medal count only bagged **21** and **3** medals respectively. Additionally, **25%** **of total medals** won by the USA in the games that year came from **swimming** alone.
 
-```{r,echo=FALSE}
-knitr::asis_output('<iframe height="500" width="150%" frameborder="no" src="https://janthina.shinyapps.io/InteractiveBarChart/"> </iframe>')
-```
-
 ```{r, results='asis', echo=FALSE}
 cat('
-</section>
-  <h5 class=\"text-center\">  </h5>
-  </section>
-  ')
+<p align="center"><iframe src="https://janthina.shinyapps.io/InteractiveBarChart/" width=500 height="420"></iframe></p> ')
 ```
 
-```{r, results='asis', echo=FALSE}
-cat('
-  <h3 class=\"text-center\">Swimming Results Over Time</h3>
-</section>
-  <h4 class=\"text-center\"> How have Olympic swimming results changed over time? </h4>
-  ')
-```
+### Swimming Results Over Time
 
-**Olympic swimming performances have made significant improvements since 1912.** The reasons for improvement are due in part to advanced training procedures, increasingly sophisticated selection methods, superior stroke mechanics, increased access to the sport or even new swimwear technologies. Most importantly, this is possible due to the International Swimming Federation's openness in developing competition rules such as exploring new swimming techniques, swimmer's gear and swimwear as well as swimming pool equipment while ensuring that the final performance is determined by human skills and quality of training rather than technology.
+##### How have Olympic swimming results changed over time?
+
+**Olympic swimming performances have made significant improvements since 1912.** This is evident in the decrease in winning timings which we can observe for both the Men's and Women's events.
 
 ```{r,echo=FALSE,message=FALSE}
 
@@ -170,18 +155,18 @@ timef <- secs %>% hms(seconds = .)
 speed$Results <- secs
 ```
 
-
-```{r,echo=FALSE,message=FALSE}
-knitr::asis_output('<iframe height="600" width="100%" frameborder="no" src="https://janthina.shinyapps.io/overall_trend/"> </iframe>')
-```
-
 ```{r, results='asis', echo=FALSE}
 cat('
-
-  <h3 class=\"text-center\">Improvement How?</h3>
-</section>
-  ')
+<p align="center"><iframe src="https://janthina.shinyapps.io/overall_trend/" width=500 height="470"></iframe></p> ')
 ```
+
+The reasons for improvement are due in part to advanced training procedures, increasingly sophisticated selection methods, superior stroke mechanics, increased access to the sport or even new swimwear technologies. Most importantly, this is possible due to the International Swimming Federation's openness in developing competition rules such as exploring new swimming techniques, swimmer's gear and swimwear as well as swimming pool equipment while ensuring that the final performance is determined by human skills and quality of training rather than technology.
+
+### Improvement How?
+
+##### Lets evaluate the nature of improvement in Olympic swimming.
+
+<br>
 
 ```{r,echo=FALSE, message=FALSE, warning=FALSE}
 speed2 <- speed %>%
@@ -219,7 +204,7 @@ hc5 <- gold_medalist %>%
 hc5
 ```
 
-Owing to a **greater rate of improvement in female swimmers**, we can observe a **diminishing difference** **between the results of female and male athletes.** Take for example the 100m Freestyle event, the 1952 difference between male and female gold medalists was 19.40 s and had dropped to 4.094 s by 2020
+Owing to a **greater rate of improvement in female swimmers**, we can observe a **diminishing difference** **between the results of female and male athletes.** Take for example the 100m Freestyle event, the 1952 difference between male and female gold medalists was 19.40 s and had dropped to 4.094 s by 2020.
 
 ```{r, echo=FALSE, message= FALSE}
 rateofimprovement <- speed %>% group_by(Year, EventType) %>%
@@ -249,19 +234,43 @@ Freestyle2 <- rateofimprovement %>% filter(EventType == "Men 200m Freestyle" | E
 Freestyle3 <- rateofimprovement %>% filter(EventType == "Men 400m Freestyle" | EventType == "Women 400m Freestyle")
 ```
 
-```{r, results='asis', echo=FALSE}
-cat('
-  <h3 class=\"text-center\">Is Swimming Performance Reaching its Peak</h3>
-</section>
-  <h4 class=\"text-center\"> What are the limits of atheletic performance? </h4>
-  ')
-```
+<br>
+
+### Is Swimming Performance Reaching its Peak
+
+##### What are the limits of atheletic performance?
+
+<br>
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
 ggplot(data=Freestyle, aes(x=Year, y=improv, group=Gen, color=Gen)) + geom_point () + geom_smooth() + xlim(1924, 2020) +facet_wrap(~Gen) +facet_wrap(~distance)
 ```
 
-Despite female athletes improving at a faster rate than their male counterparts, both demographics are experiencing **improvements at decreasing rates**. Given years of rapid development that has occurred since 1912 within the spheres of human physiology, economics, global environment and more, performance in humans and animals have experiences a plateau in the last 20-30 years. Fortunately, technological innovations may alleviate the effects of such stagnation, depending on the evolution of rules and regulations. (Berthelot et al.,2015)
+Despite female athletes improving at a faster rate than their male counterparts, both demographics are experiencing **improvements at decreasing rates**. Given years of rapid development that has occurred since 1912 within the spheres of human physiology, economics, global environment and more, performance in humans and animals have experiences a plateau in the last 20-30 years. (Berthelot et al.,2015)
+
+<br>
+
+### What does this mean for the Paris Olympics?
+
+##### Will it be any less exciting?
+
+```{r, results='asis', echo=FALSE}
+cat('
+<div style="position: relative;">
+<section class=\"image-container\">
+  <img src=\"olympics.png" style=\"width:100%;height:300px;object-fit:cover;opacity:\"/>
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: White;width: 80%;">
+  <h1 style="font-size: 40px; "></h1>
+</section>
+</div>
+')
+```
+
+<br>
+
+Fortunately not. Technological innovations have the potential to alleviate the effects of stagnation, depending on the evolution of rules and regulations. Furthermore, while we might be missing out on an appearance by Phelps this year, there are still many new talents to lookout for!
+
+<br>
 
 ```{r, echo=FALSE, message= FALSE,warning=FALSE}
 
@@ -286,10 +295,9 @@ difference<- freestylespeed %>%
   pivot_longer(cols = c("Men", "Women"),
                names_to = "Gender",
                values_to = "Results")
-
 ```
 
-References: 
+**References:**
 
 Berthelot G, Sedeaud A, Marck A, Antero-Jacquemin J, Schipman J, Saulière G, Marc A, Desgorces FD, Toussaint JF. Has Athletic Performance Reached its Peak? Sports Med. 2015 Sep;45(9):1263-1271. doi: 10.1007/s40279-015-0347-2. PMID: 26094000; PMCID: PMC4536275.
 

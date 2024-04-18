@@ -5,7 +5,7 @@ account: janthina
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11602792
-bundleId: 8470505
+bundleId: 8510782
 url: https://janthina.shinyapps.io/InteractiveBarChart/
 version: 1
 asMultiple: FALSE

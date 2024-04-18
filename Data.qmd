@@ -1,0 +1,274 @@
+---
+title: "Data"
+format: html
+editor: visual
+---
+
+```{r,echo=FALSE,message=FALSE}
+
+# Load required R packages
+library(tidyverse)
+library(ggplot2)
+library(highcharter)
+```
+
+### Main Datasets
+
+Here are the two main sets of data I used.
+
+**1) Olympic Swimming History 1912-2020 (Kaggle)**
+
+About the Data Set
+
+| Name     | Description                                                                                               |
+|----------------|--------------------------------------------------------|
+| Location | Hosting City                                                                                              |
+| Year     | Year of Olympics                                                                                          |
+| Distance | In Meteres. Relays are written as the number of swimmers by the distance swam by one swimmer (i.e. 4x200) |
+| Stroke   | Backstroke, Breaststroke, Butterfly, Freestyle, Medley, Individual Medley                                 |
+| Relay    | 0 - Individual, 1 - Relay                                                                                 |
+| Gender   | Men or Women                                                                                              |
+| Team     | Three Letter Country Code                                                                                 |
+| Athlete  | Name of Athlete                                                                                           |
+| Results  | Time                                                                                                      |
+| Rank     | 0 - Did not Start/Finish or Disqualified, 1 - Gold, 2 - Silver, 3- Bronze, 4- No Medal, 5 - No Data       |
+
+*Hint: Type 'Phelps' in the search bar to see the tremendous number of Olympic swimming medals he has won throughout his career!*
+
+```{r,echo=FALSE,message=FALSE}
+
+# Load Data 
+olympicswimming <- read.csv("/Users/janthinatan/Desktop/NM2207/Final Project/olympicswimming.csv")
+
+#Filter out the medalists 
+olympicmedalists <- olympicswimming %>% filter(Rank<4)
+```
+
+```{r,echo=FALSE,message=FALSE}
+library(DT)
+datatable(olympicmedalists)
+```
+
+<br>
+
+**2) International Olympic Committee (IOC) Code Names (Github)**
+
+```{r,echo=FALSE,message=FALSE}
+#load IOC code names
+ioc_data<-read_csv("/Users/janthinatan/Desktop/NM2207/Final Project/ioc country codes.csv")
+
+ioc_data <- ioc_data[c("Country", "NOC")]
+
+olympicmedalists$Country <- ioc_data$Country[match(olympicmedalists$Team, ioc_data$NOC)]
+
+```
+
+```{r,echo=FALSE,message=FALSE}
+datatable(ioc_data)
+```
+
+### Data Tidying
+
+**1) Mismatch in "Team" name and "Country" name.**
+
+In the Olympic Swimming dataset, the country represented by each athlete was recorded under "Team", indicated by their country code. However, in order to plot an interactive world map, there had to be country names available that matched the map data installed within the "Highcharter" package I used. Hence, I had to import the dataset of IOC Code Names which contained the IOC country codes and their corresponding country names. Then, I had to match the codes in both dataset to create a list of country names within the main Olympic Swimming dataset. This also had to be done for a clearer visualization of medal count by country.
+
+However, this dataset was not the most comprehensive and had IOC codes that did not match the ones in the main dataset. E.g Singapore is indicated as **"SGP"** in the Olympic Swimming data set but **"SIN"** in the IOC data set. Furthermore, there were some country names that did not match those in the map data within the "Highcharter" package. E.g "**USA**" corresponded with "**United States**" in the IOC dataset but it was indicated as "**United States of America**" in the map data and hence could not be recognised. Thus, I had to manually account for such changes.
+
+**2) Improper Format of Time Data**
+
+While collating medal counts per country was relatively straightforward using the data-tidying methods we had been taught throughout the course thus far, I began to encounter a major issue of inconsistent formatting in my time data under the "Results" column, which recorded how long each athlete took to finish their race. Hence, my graphs looked like this.
+
+```{r, echo=FALSE}
+olympicmedalists <- olympicswimming %>% filter(Rank==1) %>% na.omit
+
+speedbywomensfreestyle <-olympicmedalists %>% filter(Gender=="Women") %>% filter(Stroke == "Freestyle") %>% filter(Distance..in.meters. == "100m")
+
+ggplot(data=speedbywomensfreestyle,aes(x = Year,y = Results, group=Results)) + geom_point() + scale_color_brewer(palette="Dark2") 
+```
+
+After much trial and error, I learned that I could use a package, in this case 'hms', to present the variables under 'Results' in the units 'seconds', which would then allow me to chart out the data correctly in chronological order. After conversions, my data could look like this instead:
+
+```{r, echo=FALSE}
+
+#Match IOC data 
+olympicmedalists$Country <- ioc_data$Country[match(olympicmedalists$Team, ioc_data$NOC)]
+
+#Name countries whose IOC is not contained in IOC dataset 
+
+# Find the row index where Team is "ROC"
+roc_row_index <- which(olympicmedalists$Team == "ROC")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Russia"
+
+# Find the row index where Team is "SGP"
+roc_row_index <- which(olympicmedalists$Team == "SGP")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Singapore"
+
+# Find the row index where Team is "ROU"
+roc_row_index <- which(olympicmedalists$Team == "ROU")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Romania"
+
+# Find the row index where Team is "USA"
+roc_row_index <- which(olympicmedalists$Team == "USA")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "United States of America"
+
+# Find the row index where Team is "SRB"
+roc_row_index <- which(olympicmedalists$Team == "SRB")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Serbia"
+
+# Find the row index where Team is "NlD"
+roc_row_index <- which(olympicmedalists$Team == "NLD")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Netherlands"
+
+# Find the row index where Team is "TTO"
+roc_row_index <- which(olympicmedalists$Team == "TTO")
+
+# Update the corresponding row in the "Country" column
+olympicmedalists$Country[roc_row_index] <- "Trinidad and Tobago "
+```
+
+```{r, echo=FALSE, message=FALSE}
+
+speed <-olympicmedalists%>% filter(Rank==1) %>% group_by(Distance..in.meters.,Stroke,Gender)
+speed <- speed %>%
+  mutate(EventType = paste(Gender,Distance..in.meters., Stroke, sep = " "))
+
+library(hms)
+times<- speed$Results
+times1 <-strsplit(times,split="\\.")
+times2 <-sapply(times1,function(x) x[1])
+timessd <-sapply(times1,function(x) x[2])
+timessd <-sapply(timessd,function(x) substr(x,0,3))
+times3 <-strsplit(times2,split=":")
+times3 <-sapply(times3,rev)
+times3 <-lapply(times3, function(x) {
+  while (length(x) < 3) {
+    x <-c(x, "0")
+  }
+  x
+})
+
+weights <- c(1,60,3600)
+secs <-sapply(times3, function(x) {
+  temp=0
+  for(y in 1:length(x)) {
+    temp = temp + strtoi(weights[y] * strtoi(x[y]))
+  }
+  temp
+})
+secs <- secs + as.numeric(as.numeric(timessd)/1000)
+library(dplyr)
+timef <- secs %>% hms(seconds = .)
+
+speed$Results <- secs
+
+speedbywomensfreestyle <-speed %>% filter(Gender=="Women") %>% filter(Stroke == "Freestyle") %>% filter(Distance..in.meters. == "100m")
+
+ggplot(data=speedbywomensfreestyle,aes(x = Year,y = Results, group=Results)) + geom_point() + scale_color_brewer(palette="Dark2") 
+```
+
+### Tidied Dataset
+
+This data was then further manipulated to make the relevant observations.
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+
+speed2 <-olympicswimming %>% filter(Rank< 4) %>% group_by(Distance..in.meters.,Stroke,Gender)
+speed <- speed %>%
+  mutate(EventType = paste(Gender,Distance..in.meters., Stroke, sep = " "))
+
+library(hms)
+times<- speed2$Results
+times1 <-strsplit(times,split="\\.")
+times2 <-sapply(times1,function(x) x[1])
+timessd <-sapply(times1,function(x) x[2])
+timessd <-sapply(timessd,function(x) substr(x,0,3))
+times3 <-strsplit(times2,split=":")
+times3 <-sapply(times3,rev)
+times3 <-lapply(times3, function(x) {
+  while (length(x) < 3) {
+    x <-c(x, "0")
+  }
+  x
+})
+
+weights <- c(1,60,3600)
+secs2 <-sapply(times3, function(x) {
+  temp=0
+  for(y in 1:length(x)) {
+    temp = temp + strtoi(weights[y] * strtoi(x[y]))
+  }
+  temp
+})
+secs2 <- secs2 + as.numeric(as.numeric(timessd)/1000)
+library(dplyr)
+timef <- secs2 %>% hms(seconds = .)
+
+speed2$Results <- secs2
+```
+
+```{r,echo=FALSE,message=FALSE, warning=FALSE}
+
+#Match IOC data 
+speed2$Country <- ioc_data$Country[match(speed2$Team, ioc_data$NOC)]
+
+#Name countries whose IOC is not contained in IOC dataset 
+
+# Find the row index where Team is "ROC"
+roc_row_index <- which(speed2$Team == "ROC")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Russia"
+
+# Find the row index where Team is "SGP"
+roc_row_index <- which(speed2$Team == "SGP")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Singapore"
+
+# Find the row index where Team is "ROU"
+roc_row_index <- which(speed2$Team == "ROU")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Romania"
+
+# Find the row index where Team is "USA"
+roc_row_index <- which(speed2$Team == "USA")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "United States of America"
+
+# Find the row index where Team is "SRB"
+roc_row_index <- which(speed2$Team == "SRB")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Serbia"
+
+# Find the row index where Team is "NlD"
+roc_row_index <- which(speed2$Team == "NLD")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Netherlands"
+
+# Find the row index where Team is "TTO"
+roc_row_index <- which(speed2$Team == "TTO")
+
+# Update the corresponding row in the "Country" column
+speed2$Country[roc_row_index] <- "Trinidad and Tobago "
+
+
+library(DT)
+datatable(speed2)
+```

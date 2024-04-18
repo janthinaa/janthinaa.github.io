@@ -80,4 +80,4 @@ server <- function(input, output) {
       hc_subtitle(text = " Top 10 Countries by Medal Count") }) 
 }
 
-shinyApp (ui=ui, server = server)
+shinyApp (ui=ui, server = server, options = list(height = 600))
